@@ -1,9 +1,16 @@
 package org.roda.asserver.objects;
 
+import org.json.simple.JSONStreamAware;
+import org.json.simple.JSONValue;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedHashMap;
+
 /**
  * Created by kvvn on 3/19/15.
  */
-public class Event {
+public class Event implements JSONStreamAware {
     private String type;
     private String title;
     private String country;
@@ -57,5 +64,19 @@ public class Event {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+
+    @Override
+    public void writeJSONString(Writer writer) throws IOException {
+        LinkedHashMap obj = new LinkedHashMap();
+        obj.put("title", title);
+        obj.put("date", date);
+        obj.put("type", type);
+        obj.put("url", url);
+        obj.put("city", city);
+        obj.put("country", country);
+
+        JSONValue.writeJSONString(obj, writer);
     }
 }
