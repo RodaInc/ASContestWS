@@ -13,7 +13,8 @@ import spark.Route;
 public class ServRouting {
     public static void main(String[] args){
         EvenAPiConnector connector = new EvenAPiConnector();
-        get("/", (request, response) -> {
+        get("/events", (request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
             String eventData = connector.sendGetToSeatgeek(request.queryParams("band"));
             return eventData;
         });
