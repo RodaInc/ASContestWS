@@ -13,6 +13,8 @@ import spark.Route;
 public class ServRouting {
     public static void main(String[] args){
 
+
+
         EvenAPiConnector connector = new EvenAPiConnector();
         AviaSalesAPIConnector asConnecot = new AviaSalesAPIConnector();
 
@@ -24,6 +26,7 @@ public class ServRouting {
         get("/tickets", (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
             String city = request.queryParams("city");
+            String country = request.queryParams("country");
             String ip = request.ip();
 
             // this is only for tests
@@ -31,7 +34,7 @@ public class ServRouting {
                 ip = "194.0.88.214";
             }
             String date = request.queryParams("date");
-            return asConnecot.getTickets(city, ip, date);
+            return asConnecot.getTickets(city, country, ip, date);
         });
     }
 }

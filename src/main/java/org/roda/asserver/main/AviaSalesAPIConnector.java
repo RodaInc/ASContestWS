@@ -1,5 +1,9 @@
 package org.roda.asserver.main;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.roda.asserver.db.MySQL;
 import org.roda.asserver.utils.ReqestSender;
 
 import java.io.IOException;
@@ -11,12 +15,17 @@ import java.net.URL;
  */
 public class AviaSalesAPIConnector {
 
-    public String getTickets(String city, String ip, String date){
+    MySQL db = new MySQL();
+
+    public String getTickets(String city, String country, String ip, String date){
         try {
             String location = getLocation(ip);
+            db.initConnection("com.mysql.jdbc.Driver", "jdbc:mysql://127.0.0.1:3306/sa_db", "kvvn", "nau08fel");
+            String iata = db.getIATA(city, country);
             System.out.println(location);
-        } catch (Exception ex){
 
+        } catch (Exception ex){
+            System.out.println(ex);
         }
         return "";
     }
@@ -27,8 +36,13 @@ public class AviaSalesAPIConnector {
 
         URL obj = new URL(url + ip);
         ReqestSender rsender = new ReqestSender();
+        String json = rsender.sendGet(obj);
 
-        return rsender.sendGet(obj);
+        Object json_obj= JSONValue.parse(json);
+        System.out.println(json_obj);
+        JSONObject jsonObject = (JSONObject) json_obj;
+
+        return (String) jsonObject.get("iata");
     }
 
 }
