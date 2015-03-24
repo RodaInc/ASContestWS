@@ -1,13 +1,12 @@
 package org.roda.asserver.main;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.roda.asserver.db.MySQL;
+import org.roda.asserver.objects.RequestObj;
 import org.roda.asserver.utils.ReqestSender;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -17,16 +16,16 @@ public class AviaSalesAPIConnector {
 
     MySQL db = new MySQL();
 
-    public String getTickets(String city, String country, String ip, String date){
+    public String getTickets(RequestObj req){
         try {
             //where am i
-            String location = getLocation(ip);
+            String location = getLocation(req.getIp());
             db.initConnection("com.mysql.jdbc.Driver", "jdbc:mysql://127.0.0.1:3306/sa_db", "kvvn", "nau08fel");
             //where i want to go
-            String iata = db.getIATA(city, country);
-            System.out.println(date.substring(0, 7));
+            String iata = db.getIATA(req.getCity(), req.getCountry());
+            System.out.println(req.getDate().substring(0, 7));
             System.out.println(location);
-            String url = "http://api.travelpayouts.com/v1/prices/calendar?depart_date=" + date.substring(0, 7) +
+            String url = "http://api.travelpayouts.com/v1/prices/calendar?depart_date=" + req.getDate().substring(0, 7) +
                     "&origin=" + location +
                     "&destination=" + iata +
                     "&calendar_type=departure_date&token=fc151c8a1cd5bebf595210752baf1596";
@@ -41,6 +40,11 @@ public class AviaSalesAPIConnector {
         }
         return "";
     }
+
+    public String getHotels(RequestObj req){
+        return "";
+    }
+
 
     private String getLocation(String ip) throws IOException {
 
