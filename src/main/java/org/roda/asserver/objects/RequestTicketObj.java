@@ -3,7 +3,7 @@ package org.roda.asserver.objects;
 /**
  * Created by kvvn on 3/24/15.
  */
-public class RequestObj {
+public class RequestTicketObj {
 
     private String city;
     private String country;

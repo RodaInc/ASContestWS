@@ -3,7 +3,7 @@ package org.roda.asserver.main;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.roda.asserver.db.MySQL;
-import org.roda.asserver.objects.RequestObj;
+import org.roda.asserver.objects.RequestTicketObj;
 import org.roda.asserver.utils.ReqestSender;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class AviaSalesAPIConnector {
 
     MySQL db = new MySQL();
 
-    public String getTickets(RequestObj req){
+    public String getTickets(RequestTicketObj req){
         try {
             //where am i
             String location = getLocation(req.getIp());
@@ -41,7 +41,7 @@ public class AviaSalesAPIConnector {
         return "";
     }
 
-    public String getHotels(RequestObj req){
+    public String getHotels(RequestTicketObj req){
         return "";
     }
 

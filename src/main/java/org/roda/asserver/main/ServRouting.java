@@ -6,10 +6,7 @@ package org.roda.asserver.main;
 
 import static spark.Spark.*;
 
-import org.roda.asserver.objects.RequestObj;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import org.roda.asserver.objects.RequestTicketObj;
 
 public class ServRouting {
     public static void main(String[] args){
@@ -24,9 +21,10 @@ public class ServRouting {
             String eventData = connector.sendGetToSeatgeek(request.queryParams("band"));
             return eventData;
         });
+
         get("/tickets", (request, response) -> {
             boolean hotelsearch = false;
-            RequestObj req = new RequestObj();
+            RequestTicketObj req = new RequestTicketObj();
             response.header("Access-Control-Allow-Origin", "*");
             req.setCity(request.queryParams("city"));
             req.setCountry(request.queryParams("country"));
@@ -53,6 +51,13 @@ public class ServRouting {
             if(hotelsearch){
                 String hotels = asConnecot.getHotels(req);
             }
+            return "";
+        });
+
+        get("/fulltext", (request, response) ->{
+            response.header("Access-Control-Allow-Origin", "*");
+            String text = request.queryParams("text");
+
             return "";
         });
     }
