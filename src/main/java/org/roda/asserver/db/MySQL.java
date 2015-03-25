@@ -1,5 +1,8 @@
 package org.roda.asserver.db;
 
+import org.roda.asserver.objects.RequestEventObj;
+
+import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -77,6 +80,48 @@ public class MySQL extends AbstractDataBase {
             throw new DataBaseDriverException(ex.getMessage(), ex.getCause());
         }
         return result;
+    }
+
+    public boolean isStaffNew(String band, String type) throws Exception{
+        boolean result = true;
+        int count = 0;
+        reconnect();
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "SELECT COUNT(id) FROM dictionary WHERE word = ? AND explanation = ?;";
+            ps = getPreparedStatement(sql);
+            ps.setString(1, band);
+            ps.setString(2, type);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                count = rs.getInt(1);
+            }
+
+            if(count > 0) {
+                result = false;
+            }
+
+        } catch (Exception ex){
+            System.out.println(ex);
+            throw new DataBaseDriverException(ex.getMessage(), ex.getCause());
+        }
+            return result;
+    }
+
+    public void addNewStaff(String band, String type) throws Exception{
+        reconnect();
+        PreparedStatement ps = null;
+
+        try {
+        String SQL = " INSERT INTO dictionary VALUES (?,?)";
+            ps.setString(1, band);
+            ps.setString(2, type);
+            ResultSet rs = ps.executeQuery();
+        } catch (Exception ex){
+            System.out.println(ex);
+            throw new DataBaseDriverException(ex.getMessage(), ex.getCause());
+        }
     }
 
 }

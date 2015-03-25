@@ -7,6 +7,7 @@ import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.roda.asserver.objects.Event;
+import org.roda.asserver.objects.RequestEventObj;
 import org.roda.asserver.utils.ReqestSender;
 
 import java.io.IOException;
@@ -33,15 +34,16 @@ public class EvenAPiConnector {
 
     };
 
-    public String sendGetToSeatgeek(String band) throws IOException, ParseException {
+    public String sendGetToSeatgeek(RequestEventObj req) throws IOException, ParseException {
         JSONArray resevents = new JSONArray();
 
         String url = "http://api.seatgeek.com/2/events?performers.slug=";
 
-        URL obj = new URL(url + band);
+        URL obj = new URL(url + req.getBand());
         ReqestSender rsender = new ReqestSender();
         Map json = (Map)parser.parse(rsender.sendGet(obj), containerFactory);
         Iterator iter = json.entrySet().iterator();
+
         while(iter.hasNext()){
             Map.Entry entry = (Map.Entry)iter.next();
             if (entry.getKey().equals("events")){

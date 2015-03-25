@@ -1,5 +1,12 @@
 package org.roda.asserver.objects;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONStreamAware;
+import org.roda.asserver.utils.Tools;
+
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * Created by kvvn on 3/24/15.
  */
@@ -77,4 +84,6 @@ public class RequestTicketObj {
     public void setMinstay(String minstay) {
         this.minstay = minstay;
     }
+
+
 }

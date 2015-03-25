@@ -6,6 +6,7 @@ package org.roda.asserver.main;
 
 import static spark.Spark.*;
 
+import org.roda.asserver.objects.RequestEventObj;
 import org.roda.asserver.objects.RequestTicketObj;
 
 public class ServRouting {
@@ -17,8 +18,19 @@ public class ServRouting {
         AviaSalesAPIConnector asConnecot = new AviaSalesAPIConnector();
 
         get("/events", (request, response) -> {
+            RequestEventObj req = new RequestEventObj();
+
             response.header("Access-Control-Allow-Origin", "*");
-            String eventData = connector.sendGetToSeatgeek(request.queryParams("band"));
+
+            req.setCity(request.queryParams("city"));
+            req.setBand(request.queryParams("band"));
+            req.setCountry(request.queryParams("country"));
+            req.setDate_end(request.queryParams("date_end"));
+            req.setDate_start(request.queryParams("date_start"));
+            req.setType(request.queryParams("type"));
+
+            String eventData = connector.sendGetToSeatgeek(req);
+
             return eventData;
         });
 
