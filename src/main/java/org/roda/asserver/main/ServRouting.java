@@ -44,7 +44,7 @@ public class ServRouting {
             req.setChildren(request.queryParams("children"));
             req.setMaxstay(request.queryParams("maxstay"));
             req.setMinstay(request.queryParams("minstay"));
-
+            System.out.println(req.getAdults());
             if(request.queryParams("hotelsearch").length()>0){
                 hotelsearch = true;
             }
@@ -71,6 +71,11 @@ public class ServRouting {
             String text = request.queryParams("text");
 
             return "";
+        });
+
+        post("/testpost", (request, response) -> {
+            System.out.println(request.body());
+            return "test";
         });
     }
 }
