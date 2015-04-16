@@ -38,7 +38,7 @@ public class EvenAPiConnector {
     public static String search = "";
 
     public String sendGetToSeatgeek(RequestEventObj req) throws IOException, ParseException {
-
+        search = "";
         String url = "http://api.seatgeek.com/2/events?";
 
         if(req.getCity() != null) {
@@ -58,7 +58,7 @@ public class EvenAPiConnector {
         }
 
         JSONArray resevents = new JSONArray();
-
+        System.out.println(url + search);
         URL obj = new URL(url + search);
         ReqestSender rsender = new ReqestSender();
         Map json = (Map)parser.parse(rsender.sendGet(obj), containerFactory);

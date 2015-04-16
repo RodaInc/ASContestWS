@@ -21,7 +21,7 @@ public class ServRouting {
             RequestEventObj req = new RequestEventObj();
 
             response.header("Access-Control-Allow-Origin", "*");
-
+            System.out.println(request.toString());
             req.setCity(request.queryParams("city"));
             req.setBand(request.queryParams("band"));
             req.setCountry(request.queryParams("country"));
