@@ -34,12 +34,32 @@ public class EvenAPiConnector {
 
     };
 
+
+    public static String search = "";
+
     public String sendGetToSeatgeek(RequestEventObj req) throws IOException, ParseException {
+
+        String url = "http://api.seatgeek.com/2/events?";
+
+        if(req.getCity() != null) {
+            search = search + "&" + "venue.city=" + req.getCity();
+        }
+
+        if(req.getBand() != null) {
+            search = search + "&" + "performers.slug=" + req.getBand();
+        }
+
+        if(req.getDate_start() != null) {
+            search = search + "&" + "datetime_utc.gte=" + req.getDate_start();
+        }
+
+        if(req.getDate_end() != null) {
+            search = search + "&" + "datetime_utc.lte=" + req.getDate_end();
+        }
+
         JSONArray resevents = new JSONArray();
 
-        String url = "http://api.seatgeek.com/2/events?performers.slug=";
-
-        URL obj = new URL(url + req.getBand());
+        URL obj = new URL(url + search);
         ReqestSender rsender = new ReqestSender();
         Map json = (Map)parser.parse(rsender.sendGet(obj), containerFactory);
         Iterator iter = json.entrySet().iterator();
